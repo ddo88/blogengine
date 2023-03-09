@@ -7,6 +7,8 @@ namespace BlogEngine.API.Entities
     [Table("Blog_PostComments")]
     public class Comment:IEntity<int>//,IAuditEntity<User, int>
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
         [StringLength(200)]

@@ -23,7 +23,7 @@ namespace BlogEngine.Test
             serviceCollection
                 .AddDbContext<BlogEngineContext>(options =>
                     options.UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()),
-                    ServiceLifetime.Transient);
+                    ServiceLifetime.Scoped);
 
             serviceCollection.AddIdentity<User, Role>()
                           .AddEntityFrameworkStores<BlogEngineContext>()
@@ -77,6 +77,9 @@ namespace BlogEngine.Test
         {
             //int postId, CreateCommentDto input
             await _sut.AddCommentAsync(1, new CreateCommentDto { Message = "unit test message" });
+
+            //var db = _serviceProvider.GetService<BlogEngineContext>();
+            //var lst = db.Comments.ToList();
 
             var result = await _sut.GetAllAsync(1);
             result.Count().ShouldBe(1);

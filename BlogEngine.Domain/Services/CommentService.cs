@@ -46,6 +46,8 @@ namespace BlogEngine.API.Services
                 throw new PostNotPublishException(postId);
 
             var comment = _objMapper.Map<Comment>(input);
+
+            
             comment.CreatorId = _userSession.UserId.Value;
             post.Comments.Add(comment);
             await _unitOfWork.CompleteAsync();
