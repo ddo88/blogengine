@@ -91,3 +91,19 @@ this create the db structure and seed initial data as users, roles, and some pos
 On visual Studio run BlogEngine.API project
 
 
+## WebAPI publish on Azure
+
+**Url:** https://zemoga.azurewebsites.net/swagger/index.html
+
+**Users:**
+
+	*public role*
+		u: public@mail.com p: 123qwe123
+
+	*writer role*
+		u: writer1@mail.com p: 123qwe123
+		u: writer2@mail.com p: 123qwe123
+
+	*editor role*
+		u: editor@mail.com p: 123qwe123
+	
