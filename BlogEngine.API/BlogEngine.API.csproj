@@ -24,4 +24,10 @@
     <ProjectReference Include="..\BlogEngine.Domain\BlogEngine.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="BlogEngine.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
