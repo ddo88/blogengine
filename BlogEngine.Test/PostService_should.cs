@@ -1,5 +1,5 @@
 ﻿using BlogEngine.API.DbContexts;
-using BlogEngine.API.Services;
+using BlogEngine.API.Entities;
 using BlogEngine.Domain.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -83,18 +83,61 @@ namespace BlogEngine.Test
 
         }
 
-        public Task SubmitPostAsync()
+        [Fact]
+        public async Task SubmitPostAsync()
         {
-            //int postId
-            throw new NotImplementedException();
+            //Arrange
+            var db = _serviceProvider.GetService<BlogEngineContext>();
+            var post = new API.Entities.Post
+            {
+                IsPublish = false,
+                CreatorId = 2,
+                Title = "post",
+                Content = "post content"
+            };
+            
+            db.Posts.Add(post);
+            await db.SaveChangesAsync();
+
+            //Act
+            await _sut.SubmitPostAsync(post.Id);
+
+            //Assert
+            var newPost = db.Posts.FirstOrDefault(x => x.Id == post.Id);
+            newPost.IsPublish.ShouldBe(false);
+            post.Status.ShouldBe(PostStatus.Submitted);
         }
 
-        public Task UpdateAsync()
+        [Fact]
+        public async Task UpdateAsync()
         {
-            throw new NotImplementedException();
-            //PostDto
-            //EditPostDto input
-            //throw new NotImplementedException();
+            //Arrange
+            var db = _serviceProvider.GetService<BlogEngineContext>();
+            var post = new API.Entities.Post
+            {
+                IsPublish = false,
+                CreatorId = 2,
+                Title = "post",
+                Content = "post content"
+            };
+
+            db.Posts.Add(post);
+            await db.SaveChangesAsync();
+
+            //Act
+            var result = await _sut.UpdateAsync(new Domain.Models.EditPostDto
+            {
+                Id = post.Id,
+                Title = "EditPost",
+                Content = "EditContent"
+            });
+
+            //Assert
+            result.Title.ShouldBe("EditPost");
+            result.Content.ShouldBe("EditContent");
+            
+
+
         }
     }
 }

@@ -36,13 +36,9 @@ namespace BlogEngine.Test
             serviceCollection.AddTransient<IPostService, PostService>();
             serviceCollection.AddTransient<ICommentService, CommentService>();
             serviceCollection.AddTransient<IPublishService, PublishService>();
-
-            //serviceCollection.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             serviceCollection.AddTransient<IUserSession, MockUserSession>();
 
             ServiceProvider = serviceCollection.BuildServiceProvider();
-
         }
 
         public ServiceProvider ServiceProvider { get; private set; }
