@@ -13,30 +13,63 @@ This leverages .NET 6, new hosting model, and new routing API to enhance .NET pe
 
 ## Project Structure
 ```
-├── Controllers
-│   └── KubeOpsController.cs
-├── Dockerfile
-├── KubernetesLocalProcessConfig.yaml
-├── LICENSE
-├── Models
-│   └── DatabaseConfig.cs
-├── Program.cs
-├── Properties
-│   └── launchSettings.json
-├── README.md
-├── Services
-│   └── APIService.cs
-├── Startup.cs
-├── appsettings.Development.json
-├── bin
-│   └── Debug
-├── configs
-│   └── prod
-├── dotnet-core-web-api.csproj
-├── dotnet-core-web-api.sln
-├── manifests
-│   ├── deployment.yaml
-│   └── service.yaml
+├── BlogEngine.API
+│   ├── Controllers
+│   │	├──AuthenticationController.cs
+│   │	├──BlogController.cs
+│   │	├──CommentsController.cs
+│   │	├──PostController.cs
+│   │	└──PublishController.cs
+│   ├── appsettings.js
+│   ├── Program.cs
+│   ├── Startup.cs
+│   └── UserSesion.cs
+├── BlogEngine.Domain
+│   ├── Models
+│   │	└──PostDto.cs
+│   ├── Profiles
+│   │	└──AutoMapperProfiles.cs
+│   └── Services
+│   	├──Exceptions
+│		│	├──CannotEditPublishedPostException.cs
+│		│	├──CannotEditSubmittedPostException.cs
+│		│	├──CannotSubmitPublishedPostException.cs
+│		│	├──NotTheAuthorOfPostException.cs
+│		│	├──PostNotFoundException.cs
+│		│	├──PostNotPublishException.cs
+│		│	└──PostStatusNotValidException.cs
+│   	├──Interfaces
+│		│	├──ICommentService.cs
+│		│	├──IPostService.cs
+│		│	└──IPublishService.cs
+│   	├──CommentService.cs
+│   	├──PostService.cs
+│   	└──PublishService.cs
+├── BlogEngine.Data
+│   ├── DbContexts
+│   │	└──BlogEngineContext.cs
+│   ├── Entities
+│	│	├──Comment.cs
+│	│	├──Post.cs
+│	│	├──Role.cs
+│	│	└──User.cs
+│   ├── Migrations
+│	├──Repository.cs
+│	└──UnitOfWork.cs
+├── BlogEngine.Core
+│   ├── IEntity.cs
+│   ├── IRepository.cs
+│   ├── IUnitOfWork.cs
+│   └── IUserSession.cs
+├── BlogEngine.Test
+│   ├── BaseTest.cs
+│   ├── CommentService_Shoud.cs
+│   ├── DbFixture.cs
+│   ├── MockUserSession.cs
+│   ├── PostService_Should.cs
+│   ├── PublishService_Should.cs
+│   └── Usings.cs
+├──Zemoga.BlogEngine.postman_collection.json   
 ```
 
 - `Dockerfile` is .NET Core Web API Multistage Dockerfile (following Docker Best Practices)
