@@ -1,15 +1,7 @@
 # BlogEngine
 
-This is a Blog created for inteview on Zemoga
-# .NET Core Web API Starter Project
+This is a blog web api project for interview on zemoga
 
-This is a boilerplate template for building / deploying a .NET Core Web API microservice on Kubernetes / Azure Container Instance.
-This leverages .NET 6, new hosting model, and new routing API to enhance .NET performance. You can learn .NET 6 more on [ASP.NET Core minimal APIs](https://www.dotnetthailand.com/web-frameworks/asp-net-core/asp-net-core-minimal-apis).
-
-## Versioning
-| GitHub Release | .NET Core Version | Diagnostics HealthChecks Version |
-|----------------|------------ |---------------------|
-| main | 6.0.100-preview.6.21355.2 | 2.2.0 |
 
 ## Project Structure
 ```
@@ -72,25 +64,30 @@ This leverages .NET 6, new hosting model, and new routing API to enhance .NET pe
 ├──Zemoga.BlogEngine.postman_collection.json   
 ```
 
-- `Dockerfile` is .NET Core Web API Multistage Dockerfile (following Docker Best Practices)
-- `KubernetesLocalProcessConfig.yaml` is [Bridge to Kubernetes](https://devblogs.microsoft.com/visualstudio/bridge-to-kubernetes-ga/) config to supports developing .NET Core Web API microservice on Kubernetes
-- `configs` folder will contain .NET Core Web API centralized config structure
-- `appsettings.Development.json` is .NET Core Web API development environment config
-- `manifests` folder will contain Kubernetes manifests (deployment, service)
-- `Startup.cs` is .NET Core Web API startup & path routing config 
-- `Program.cs` is .NET Core Web API environment variable mapping config 
+- `BlogEngine.API` is .NET Core Web API main app
+- `BlogEngine.Domain` Contains de the domain logic of project, Dtos, Mappers
+- `BlogEngine.Data` Contains Ef DbContext and entities
+- `BlogEngine.Core` Contains infraestructure utils of project as IRepository, IUserSession
+- `BlogEngine.Test` Contains the UnitTest of the application.
+- `Zemoga.BlogEngine.postman_collection.json ` is the postman collection on local
 
 ## Setting Up
 
 To setup this project, you need to clone the git repo
 
 ```sh
-$ git clone https://github.com/kubeopsskills/dotnet-core-web-api.git
-$ cd dotnet-core-web-api
+$ git clone https://github.com/ddo88/blogengine.git
 ```
 
-followed by
+## Run Migrations
 
 ```sh
-$ dotnet restore
+$ Update-Database
 ```
+this create the db structure and seed initial data as users, roles, and some post with comments
+
+## Run API Project
+
+On visual Studio run BlogEngine.API project
+
+
