@@ -36,7 +36,9 @@ namespace BlogEngine.API.Services
 
         public async Task AddCommentAsync(int postId, CreateCommentDto input)
         {
-            var post = await _postRepository.GetAsync(postId);
+            var post = await _postRepository.GetQueryable()
+                                            .Include(x=>x.Comments)
+                                            .FirstOrDefaultAsync(x=>x.Id==postId);
             if (post == null)
                 throw new PostNotFoundException(postId);
             

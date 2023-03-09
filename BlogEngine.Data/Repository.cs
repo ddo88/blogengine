@@ -24,7 +24,7 @@ namespace BlogEngine.Core
 
         public async Task<IEnumerable<T>> GetAllAsync() => await _repository.ToListAsync();
 
-        public async Task<T?> GetAsync(U Id) => await _repository.FirstOrDefaultAsync(CreateEqualityExpressionForId(Id));
+        public async virtual Task<T?> GetAsync(U Id) => await _repository.FirstOrDefaultAsync(CreateEqualityExpressionForId(Id));
 
         public async Task<T> CreateAsync(T entity)
         {
