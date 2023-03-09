@@ -1,13 +1,14 @@
-﻿using BlogEngine.API.Core;
-using BlogEngine.API.DbContexts;
+﻿using BlogEngine.API.DbContexts;
 using BlogEngine.API.Entities;
 using BlogEngine.API.Services;
+using BlogEngine.Core;
+using BlogEngine.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 using System.Text;
 
 namespace BlogEngine.API
@@ -52,41 +53,39 @@ namespace BlogEngine.API
             services.AddScoped<UserManager<User>>();
             services.AddScoped<RoleManager<Role>>();
 
-
+            var t = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.GetName().Name.StartsWith("BlogEngine")).ToList();
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
             services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies().Where(x => x.GetName().Name.StartsWith("BlogEngine")).ToList());
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IPublishService, PublishService>();
 
 
             services.AddAuthentication( options =>
-                                        {
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme             = JwtBearerDefaults.AuthenticationScheme;
             }
-
-
-            //JwtBearerDefaults.AuthenticationScheme
-        ).AddJwtBearer(o =>
+            ).AddJwtBearer(options =>
             {
-                o.SaveToken = true;
-                o.RequireHttpsMetadata = false;
-                o.TokenValidationParameters = new TokenValidationParameters
+                options.SaveToken                   = true;
+                options.RequireHttpsMetadata        = false;
+                options.TokenValidationParameters   = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidAudience = configuration["Jwt:Audience"],
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]))
+                    ValidateIssuer      = true,
+                    ValidateAudience    = true,
+                    ValidAudience       = configuration["Jwt:Audience"],
+                    ValidIssuer         = configuration["Jwt:Issuer"],
+                    IssuerSigningKey    = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]))
                 };
             });
             services.AddAuthorization();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<IBlogSession, BlogSession>();
+            services.AddTransient<IUserSession, UserSession>();
             
         }
 

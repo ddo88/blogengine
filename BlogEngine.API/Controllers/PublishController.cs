@@ -1,5 +1,5 @@
-﻿using BlogEngine.API.Models;
-using BlogEngine.API.Services;
+﻿using BlogEngine.Domain.Models;
+using BlogEngine.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,19 +39,5 @@ namespace BlogEngine.API.Controllers
             await _publishService.ApproveAsync(input);
             return Ok();
         }
-
     }
-
-    public class RejectDto
-    {
-        public int PostId { get; set; }
-        public string Message { get; set; }
-
-    }
-
-    public class ApproveDto
-    {
-        public int PostId { get; set; }
-    }
-    
 }

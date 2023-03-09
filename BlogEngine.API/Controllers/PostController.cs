@@ -1,13 +1,8 @@
-﻿using AutoMapper;
-using BlogEngine.API.Core;
-using BlogEngine.API.Entities;
-using BlogEngine.API.Models;
-using BlogEngine.API.Services;
+﻿using BlogEngine.Domain.Models;
+using BlogEngine.Domain.Services.Exceptions;
+using BlogEngine.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using System.Security.Claims;
 
 namespace BlogEngine.API.Controllers
 {
@@ -20,19 +15,19 @@ namespace BlogEngine.API.Controllers
         ILogger Logger { get; }
 
         private readonly IPostService _postService;
-        private readonly IBlogSession _session;
+        private readonly IUserSession _userSession;
 
-        public PostController(ILogger<PostController> logger,IPostService postService,IBlogSession session)
+        public PostController(ILogger<PostController> logger,IPostService postService,IUserSession userSession)
         {
             Logger = logger;
             _postService = postService;
-            _session = session;
+            _userSession = userSession;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostFullDto>>> GetAllAsync()
         {
-            return Ok(await _postService.GetAllPostsByUserAsync(_session.UserId.Value));
+            return Ok(await _postService.GetAllPostsByUserAsync(_userSession.UserId.Value));
         }
 
         [HttpPost]
@@ -82,7 +77,6 @@ namespace BlogEngine.API.Controllers
                 return BadRequest(ceppe.Message);
             }
             return Ok();
-        }
-        
+        }        
     }
 }

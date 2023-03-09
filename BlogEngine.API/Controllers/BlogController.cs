@@ -1,5 +1,5 @@
-﻿using BlogEngine.API.Models;
-using BlogEngine.API.Services;
+﻿using BlogEngine.Domain.Models;
+using BlogEngine.Domain.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

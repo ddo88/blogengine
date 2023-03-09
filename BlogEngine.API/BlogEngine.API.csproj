@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\BlogEngine.Domain\BlogEngine.Domain.csproj" />
   </ItemGroup>
 
 </Project>
